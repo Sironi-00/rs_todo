@@ -1,10 +1,16 @@
 mod logic;
+use std::io;
+
 pub fn run() {
     let mut todo_list: Vec<logic::Todo> = Vec::with_capacity(8);
     loop {
         println!("Hello Wolcome to my cli TodoApp in rust\n select function add view complete remove quit");
-        let selected = "add";
-        match selected {
+        let mut selected = String::new();
+        match io::stdin().read_line(&mut selected) {
+            Ok(_n) => &selected,
+            Err(_e) => continue
+        };
+        match selected.as_str() {
             "add" => {
                 println!("enter ID Title Note");
                 todo_list.push(logic::Todo::add(0, "Test", ""));
@@ -12,7 +18,7 @@ pub fn run() {
             "view" => {
                 if todo_list.len() == 0 {
                     println!("Add elements first");
-                    //continue
+                    continue
                 }
                 // Ability to enter Id to select todo
                 for td in &todo_list {
