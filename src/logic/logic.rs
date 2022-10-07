@@ -14,7 +14,8 @@ impl Todo {
         }
     }
     pub fn view(&self) {
-        println!("ID: {id} Title: {title} Complete: {complete}\n * {note} ",id=self.id , title=self.title, complete=self.complete, note=self.note)
+        let out = format!("ID: {id} Title: {title} Complete: {complete}\n * {note} ",id=self.id , title=self.title, complete=self.complete, note=self.note);
+        println!("{0}\n{1}","-".repeat(out.len()), out);
     }
     pub fn obj(&self) -> (u8, &String) {
         (self.id, &self.title)
