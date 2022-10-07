@@ -1,24 +1,34 @@
+mod logic;
+pub fn run() { 
+let todo_list: Vec<logic::Todo> = Vec::with_capacity(8);
+//loop 
 
-pub struct Todo {
-id: u8,
-title: String,
-note: String,
-complete: bool
-}
-impl Todo {
-    pub fn add(id:u8, title: &str, note: &str) -> Todo {
-        Todo {
-            id: id,
-            title: title.to_string(),
-            note: String::from(note),
-            complete: false
-        }
+    println!("Hello Wolcome to my cli TodoApp in rust\n select function add view complete remove quit");
+    let mut selected = "add";
+    match selected {
+        "add" => {
+            if todo_list.len() == todo_list.len() {
+                println!("Array Full");
+                //continue
+            }
+            println!("enter ID Title Note");
+            todo_list[0] = logic::Todo::add(0, "Test", "");
+        }, "view" => {
+            if todo_list.len() == 0 {
+                println!("Add elements first");
+                //continue
+            }
+            // Ability to enter Id to select todo
+            for td in todo_list {
+                td.view();
+            }
+        }, "remove" => {
+            let get_id = 0;
+            for td in todo_list {
+                if get_id == td.obj().0 {td.view()}
+            }
+        }, "quit" | "q" | "exit" => println!("end")//break;
     }
-    pub fn view(&self) {
-        println!("ID: {id} Title: {title} Complete: {complete}\n * {note} ",id=self.id , title=self.title, complete=self.complete, note=self.note)
-    }
-    pub fn complete(&mut self) {
-        self.complete= !{self.complete}
-    }
+
 
 }
