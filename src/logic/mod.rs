@@ -25,14 +25,12 @@ pub fn run() {
                 let to_id = todo_list.len() as u8;
 
                 // Out message
-                let msg_t = "Please Enter Title";
-                let msg_n = "Please Enter Notes";
+                let msg_t = "Please Enter Objective";
 
                 // adds a todo to the vec
                 todo_list.push(logic::Todo::add(
                     to_id,
-                    get_entry(msg_t).as_str().trim(),
-                    get_entry(msg_n).as_str().trim(),
+                    get_entry(msg_t).as_str().trim()
                 ));
                 println!("-----\nADDED\n------");
                 todo_list[todo_list.len()-1].view();
@@ -56,7 +54,7 @@ pub fn run() {
                     println!("Add Todos first");
                     continue
                 }
-                let msg_id = "Please Enter ID of todo";
+                let msg_id = "Please ID to toggle todo complete";
 
                 // match n give feedback on Err
                 let get_id = get_entry(msg_id).trim().parse::<u8>().unwrap();
@@ -81,17 +79,12 @@ pub fn run() {
                     println!("...Todos Cleared");
                     continue;
                 } else if get_id.as_str().trim() == "!" {
-                    let mut td_index: Vec<usize> = Vec::with_capacity(8);
-
-                    for (x, td) in todo_list.iter().enumerate() {
-                        if td.obj().2 == true {
-                            // gets index of completed todo
-                            td_index.push(x);
-                        }
-                    }
-                    if td_index.len() == 0 {continue;}
-                    for ind in td_index {
-                        todo_list.remove(ind);
+                    // rm completed
+                    let len_before = todo_list.len();
+                    todo_list.retain(|x|x.obj().2 !=true);
+                    if todo_list.len() < len_before {
+                        println!("No completed Todos");
+                        continue
                     }
                     println!("...Completed Todos Cleared");
                     continue;
