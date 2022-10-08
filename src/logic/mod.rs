@@ -1,63 +1,99 @@
 mod logic;
 use std::io;
 pub fn run() {
+    // a Vector that stores todos
     let mut todo_list: Vec<logic::Todo> = Vec::with_capacity(8);
 
     fn get_entry(msg: &str) -> String {
+        // get input and returns it as a string where passed arg is displayed in cli
         if msg.len() > 0 {
             println!("?? {msg}")
         };
         let mut input = String::new();
-                match io::stdin().read_line(&mut input) {
-                    Ok(_n) => input,
-                    Err(_e) => "".to_string()
-                }
+        match io::stdin().read_line(&mut input) {
+            Ok(_n) => input,
+            Err(_e) => "".to_string(),
+        }
     }
-
+    println!("Hello! Welcome to my cli TodoApp in rust");
     loop {
-        println!("Hello! Welcome to my cli TodoApp in rust\n?? select function add view complete remove quit");
-        
+        println!("?? select function ( c = add, r = view, u = complete, d = remove or quit )");
+
         match get_entry("").as_str().trim() {
-            "add" => {
-                println!("Adding ToDo");
+            "c" => {
+                println!("Creating...");
                 let to_id = todo_list.len() as u8;
 
-                // Title Entry
+                // Out message
                 let msg_t = "Please Enter Title";
                 let msg_n = "Please Enter Notes";
 
-                todo_list.push(logic::Todo::add(to_id, get_entry(msg_t).as_str().trim(), get_entry(msg_n).as_str().trim()));
-                println!("ADDED\n------");
-            }, "view" => {
+                // adds a todo to the vec
+                todo_list.push(logic::Todo::add(
+                    to_id,
+                    get_entry(msg_t).as_str().trim(),
+                    get_entry(msg_n).as_str().trim(),
+                ));
+                println!("-----\nADDED\n------");
+                todo_list[todo_list.len()-1].view();
+            }
+            "r" => {
+                // Displays todos
+                println!("Reading...");
                 if todo_list.len() == 0 {
-                    println!("Add elements first");
+                    println!("Add Todos first");
                     continue
                 }
                 // Ability to enter Id to select todo
                 for td in &todo_list {
                     td.view();
                 }
-            }, "complete" => {
+            }
+            "u" => {
+                // Toggles a todo to complete
+                println!("Updating...");
+                if todo_list.len() == 0 {
+                    println!("Add Todos first");
+                    continue
+                }
                 let msg_id = "Please Enter ID of todo";
-                
+
                 // match n give feedback on Err
                 let get_id = get_entry(msg_id).trim().parse::<u8>().unwrap();
                 for td in &mut todo_list {
                     if get_id == td.obj().0 {
-                        td.complete()
+                        td.complete();
+                        println!("-----\nCompleted\n------");
                     }
                 }
-            }, "remove" => {
-                let get_id = 0;
-                for td in &todo_list {
+            }
+            "d" => {
+                // rm a todo from the list
+                println!("Deleting...");
+                if todo_list.len() == 0 {
+                    println!("Add Todos first");
+                    continue
+                }
+                let get_id = get_entry("Enter Id to Todo");
+                let get_id = get_id.trim().parse::<u8>().unwrap();
+                // position of removable
+                let mut td_index: usize = 0;
+
+                for (x, td) in todo_list.iter_mut().enumerate() {
                     if get_id == td.obj().0 {
-                        td.view()
+                        // matches inputed id with Todo's id
+                        td_index = x;
                     }
                 }
-            }, "quit" | "q" | "exit" => {
-                println!("end");
-                break
-            }, _ => println!("Err"),
+                todo_list.remove(td_index);
+                println!("-----\nREMOVED\n------");
+            }
+            "quit" | "q" | "exit" => {
+                println!("Exiting...\nBye Bye!");
+                break;
+            }
+            _ => println!("You didn't do it right, Try again"),
         }
+        println!("")
     }
 }
