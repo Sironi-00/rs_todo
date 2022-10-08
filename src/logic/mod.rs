@@ -74,12 +74,34 @@ pub fn run() {
                     println!("Add Todos first");
                     continue
                 }
-                let get_id = get_entry("Enter Id to Todo");
+                let get_id = get_entry("Enter Id of Todo or * for all or ! for completed only");
+                if get_id.len() == 0 {continue;}
+                if get_id.as_str().trim() == "*" {
+                    todo_list.clear();
+                    println!("...Todos Cleared");
+                    continue;
+                } else if get_id.as_str().trim() == "!" {
+                    let mut td_index: Vec<usize> = Vec::with_capacity(8);
+
+                    for (x, td) in todo_list.iter().enumerate() {
+                        if td.obj().2 == true {
+                            // gets index of completed todo
+                            td_index.push(x);
+                        }
+                    }
+                    if td_index.len() == 0 {continue;}
+                    for ind in td_index {
+                        todo_list.remove(ind);
+                    }
+                    println!("...Completed Todos Cleared");
+                    continue;
+                } 
+
                 let get_id = get_id.trim().parse::<u8>().unwrap();
                 // position of removable
                 let mut td_index: usize = 0;
 
-                for (x, td) in todo_list.iter_mut().enumerate() {
+                for (x, td) in todo_list.iter().enumerate() {
                     if get_id == td.obj().0 {
                         // matches inputed id with Todo's id
                         td_index = x;
@@ -94,6 +116,6 @@ pub fn run() {
             }
             _ => println!("You didn't do it right, Try again"),
         }
-        println!("")
+        println!("~")
     }
 }
