@@ -15,6 +15,13 @@ pub fn run() {
             Err(_e) => "".to_string(),
         }
     }
+    fn is_empt(arr: &Vec<logic::Todo>) -> bool {
+            if arr.len() == 0 {
+                println!("Todo List is empty");
+                return true
+            }
+            false
+    }
     println!("Hello! Welcome to my cli TodoApp in rust");
     loop {
         println!("?? select function ( c = add, r = view, u = complete, d = remove or quit )");
@@ -22,10 +29,16 @@ pub fn run() {
         match get_entry("").as_str().trim() {
             "c" => {
                 println!("Creating...");
-                let to_id = todo_list.len() as u8;
+                let mut to_id = todo_list.len() as u8;
+
+                for i in &todo_list {
+                    if i.obj().0 == todo_list.len() as u8 {
+                        to_id = todo_list.len() as u8 + 1;
+                    } 
+                }
 
                 // Out message
-                let msg_t = "Please Enter Objective";
+                let msg_t = "Please Enter Todo";
 
                 // adds a todo to the vec
                 todo_list.push(logic::Todo::add(
@@ -38,8 +51,7 @@ pub fn run() {
             "r" => {
                 // Displays todos
                 println!("Reading...");
-                if todo_list.len() == 0 {
-                    println!("Add Todos first");
+                if is_empt(&todo_list) {
                     continue
                 }
                 // Ability to enter Id to select todo
@@ -50,11 +62,10 @@ pub fn run() {
             "u" => {
                 // Toggles a todo to complete
                 println!("Updating...");
-                if todo_list.len() == 0 {
-                    println!("Add Todos first");
+                if is_empt(&todo_list) {
                     continue
                 }
-                let msg_id = "Please ID to toggle todo complete";
+                let msg_id = "Enter ID to toggle todo complete";
 
                 // match n give feedback on Err
                 let get_id = get_entry(msg_id).trim().parse::<u8>().unwrap();
@@ -68,8 +79,7 @@ pub fn run() {
             "d" => {
                 // rm a todo from the list
                 println!("Deleting...");
-                if todo_list.len() == 0 {
-                    println!("Add Todos first");
+                if is_empt(&todo_list) {
                     continue
                 }
                 let get_id = get_entry("Enter Id of Todo or * for all or ! for completed only");
