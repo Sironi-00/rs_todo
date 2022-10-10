@@ -4,7 +4,7 @@ use std::{fs::{OpenOptions, File}, io::{Write, Read}};
 pub mod form;
 
 fn loc_file() -> File {
-    match OpenOptions::new().create(true).read(true).write(true).open("local storage.txt") {
+    match OpenOptions::new().create(true).read(true).write(true).open("local.txt") {
         Ok(n) => n,
         Err(e)=> panic!("Error: {}", e)
     }
