@@ -9,7 +9,7 @@ fn main() {
 
 pub fn run() {
     // Gets list from sorage
-    let mut todo_list: Vec<logic::form::Todo> = logic::db();
+    let mut todo_list: Vec<logic::form::Todo> = logic::local_read();
 
     fn get_entry(msg: &str) -> String {
         // get input and returns it as a string where passed arg is displayed in cli
@@ -121,6 +121,7 @@ pub fn run() {
                 println!("-----\nREMOVED\n------");
             }
             "quit" | "q" | "exit" => {
+                logic::local_write(&todo_list);
                 println!("Exiting...\nBye Bye!");
                 break;
             }
