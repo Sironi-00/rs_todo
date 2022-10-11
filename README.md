@@ -14,3 +14,6 @@ This simply displays stored Todos with ID, Objective and State
 Toggle the complete state of a selected Todo
 ### DELETE
 This has three modes where [Todo Id] removes the selected Todo only, * removes all Todo(s) and ! removes completed Todo(s)
+
+## Saving
+The app can save todos locally n remember on reopen
