@@ -121,6 +121,9 @@ pub fn run() {
                 println!("-----\nREMOVED\n------");
             }
             "quit" | "q" | "exit" => {
+                for td in &todo_list {
+                    td.view();
+                }
                 logic::local_write(&todo_list);
                 println!("Exiting...\nBye Bye!");
                 break;
