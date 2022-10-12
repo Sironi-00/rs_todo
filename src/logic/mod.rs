@@ -1,30 +1,21 @@
 // use std::io::prelude::*;
 use std::{
     fs::{File, OpenOptions},
-    io::{Read, Write}, path::Path,
+    io::{Read, Write}
 };
 
 pub mod form;
 
 fn loc_file(erase:bool) -> File {
-    let path = Path::new("src/");
-    //println!("{}", path.display());
-    // Get absolute path
-    let cpath = match path.canonicalize() {
-        Ok(n) => n,
-        Err(e) => panic!("path E: {}", e)
-    };
-    // println!("{} -:- {}", path.display() , cpath.display());
-    
     match OpenOptions::new()
         .create(true)
         .truncate(erase)
         .read(true)
         .write(true)
-        .open(cpath.join("local.txt"))
+        .open("local.txt")
     {
         Ok(n) => n,
-        Err(e) => panic!("File_0| Error: {}**{}*", e, path.display()),
+        Err(e) => panic!("File_0| Error: {}", e),
     }
 }
 
