@@ -7,7 +7,8 @@ use std::{
 pub mod form;
 
 fn loc_file(erase:bool) -> File {
-    let path = Path::new("./src/save/local.txt");
+    let path = Path::new("src/");
+    //println!("{}", path.display());
     // Get absolute path
     let cpath = match path.canonicalize() {
         Ok(n) => n,
@@ -20,7 +21,7 @@ fn loc_file(erase:bool) -> File {
         .truncate(erase)
         .read(true)
         .write(true)
-        .open(cpath)
+        .open(cpath.join("local.txt"))
     {
         Ok(n) => n,
         Err(e) => panic!("File_0| Error: {}**{}*", e, path.display()),
