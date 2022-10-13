@@ -1,7 +1,7 @@
 // use std::io::prelude::*;
 use std::{
     fs::{File, OpenOptions},
-    io::{Read, Write},
+    io::{Read, Write}
 };
 
 pub mod form;
