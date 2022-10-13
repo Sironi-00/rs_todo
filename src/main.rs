@@ -76,12 +76,23 @@ pub fn run() {
                 let msg_id = "Enter ID to toggle todo complete";
 
                 // match n give feedback on Err
-                let get_id = get_entry(msg_id).trim().parse::<u8>().unwrap();
+                let get_id = match get_entry(msg_id).trim().parse::<u8>() {
+                    Ok(n) => n,
+                    Err(e) => {
+                        println!("Error: {} = Invalid Id ID should be string only", e);
+                        continue
+                    }
+                };
+                let mut no_id = true;
                 for td in &mut todo_list {
                     if get_id == td.obj().0 {
                         td.complete();
                         println!("-----\nCompleted\n------");
+                        no_id = false
                     }
+                }
+                if no_id {
+                    println!("Invalid Id");
                 }
             }
             "d" => {
@@ -108,23 +119,31 @@ pub fn run() {
                     continue;
                 } 
 
-                let get_id = get_id.trim().parse::<u8>().unwrap();
+                let get_id = match get_id.trim().parse::<u8>() {
+                    Ok(n) => n,
+                    Err(e) => {
+                        println!("Error: {} = enter valid selecter", e);
+                        continue;
+                    }
+                };
                 // position of removable
                 let mut td_index: usize = 0;
+                let mut no_rm = true;
 
                 for (x, td) in todo_list.iter().enumerate() {
                     if get_id == td.obj().0 {
                         // matches inputed id with Todo's id
                         td_index = x;
+                        no_rm = false;
                     }
+                }
+                if no_rm {
+                    println!("Enter Id of existing Todo to remove");
                 }
                 todo_list.remove(td_index);
                 println!("-----\nREMOVED\n------");
             }
             "quit" | "q" | "exit" => {
-                for td in &todo_list {
-                    td.view();
-                }
                 logic::local_write(&todo_list);
                 println!("Exiting...\nBye Bye!");
                 break;

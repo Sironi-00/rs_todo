@@ -67,7 +67,7 @@ pub fn local_read() -> Vec<form::Todo> {
     if list.len() > 0 && check_todo {
         return list;
     } else {
-        return Vec::with_capacity(8);
+        return Vec::with_capacity(12);
     }
 }
 pub fn local_write(loc_td: &Vec<form::Todo>) {
