@@ -40,7 +40,7 @@ pub fn local_read() -> Vec<form::Todo> {
 
     for line in file_items.split("\n") {
         // A temporary vec to store Each Todo
-        let mut temp: Vec<&str> = Vec::with_capacity(2);
+        let mut temp: Vec<&str> = Vec::with_capacity(3);
         for item in line.split("|") {
             // adds the split line to a temp
             temp.push(item.trim());
@@ -54,7 +54,15 @@ pub fn local_read() -> Vec<form::Todo> {
                 0
             }
         };
-        list.push(form::Todo::add(id_from, temp[1]));
+        let complete_from = match temp[2].parse::<bool>() {
+            Ok(n) => n,
+            Err(_)=> {
+                println!("Failed to read old Todos -:- Creating New todo");
+                check_todo = false;
+                false
+            }
+        };
+        list.push(form::Todo::add(id_from, temp[1], complete_from));
     }
     if list.len() > 0 && check_todo {
         return list;
@@ -71,7 +79,7 @@ pub fn local_write(loc_td: &Vec<form::Todo>) {
     if loc_td.len() != 0 {
         // Formats Todos n Write them
         for i in loc_td {
-            temp += &format!("{}|{}\n", i.obj().0, i.obj().1)
+            temp += &format!("{}|{}|{}\n", i.obj().0, i.obj().1, i.obj().2)
         }
     } else {
         temp = String::from("***")

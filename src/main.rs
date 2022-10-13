@@ -50,7 +50,8 @@ pub fn run() {
                 // adds a todo to the vec
                 todo_list.push(logic::form::Todo::add(
                     to_id,
-                    get_entry(msg_t).as_str().trim()
+                    get_entry(msg_t).as_str().trim(),
+                    false
                 ));
                 println!("-----\nADDED\n------");
                 todo_list[todo_list.len()-1].view();

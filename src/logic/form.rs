@@ -4,12 +4,12 @@ pub struct Todo {
     complete: bool,
 }
 impl Todo {
-    pub fn add(id: u8, objective: &str) -> Todo {
+    pub fn add(id: u8, objective: &str, complete: bool) -> Todo {
         // gets n gives values to the struct
         Todo {
             id,
             objective: objective.to_string(),
-            complete: false,
+            complete,
         }
     }
     pub fn view(&self) {
