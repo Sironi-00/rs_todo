@@ -1,9 +1,6 @@
 # rs_todo
 My Todo app with rust
 
-# Usage
-Download the ```rs_todo``` and runt it in terminal with 
-
 ## Desc
 The app is a todo app made with rust.
 It currently has 4 functions which are CREATE, READ, UPDATE and DELETE
