@@ -12,7 +12,7 @@ fn loc_file(erase:bool) -> File {
         .truncate(erase)
         .read(true)
         .write(true)
-        .open("local.txt")
+        .open("local_todos.txt")
     {
         Ok(n) => n,
         Err(e) => panic!("File_0| Error: {}", e),

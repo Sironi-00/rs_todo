@@ -66,6 +66,7 @@ pub fn run() {
                 for td in &todo_list {
                     td.view();
                 }
+                println!("_______________\nTodos Count: {}\n---------------",todo_list.len());
             }
             "u" => {
                 // Toggles a todo to complete
@@ -148,7 +149,7 @@ pub fn run() {
                 println!("Exiting...\nBye Bye!");
                 break;
             }
-            _ => println!("You didn't do it right, Try again"),
+            _ => println!("Invalid Input"),
         }
         println!("~")
     }
