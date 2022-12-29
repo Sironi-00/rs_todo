@@ -31,7 +31,7 @@ pub fn run() {
     }
     println!("Hello! Welcome to my cli TodoApp in rust");
     loop {
-        println!("?? select function ( c = add, r = view, u = complete, d = remove or quit )");
+        println!(" select function | c = add | r = view | u = complete | d = remove | q = quit");
 
         match get_entry("").as_str().trim() {
             "c" => {
@@ -43,7 +43,6 @@ pub fn run() {
                         to_id = todo_list.len() as u8 + 1;
                     } 
                 }
-
                 // Out message
                 let msg_t = "Please Enter Todo";
 
@@ -147,6 +146,7 @@ pub fn run() {
             "quit" | "q" | "exit" => {
                 logic::local_write(&todo_list);
                 println!("Exiting...\nBye Bye!");
+                println!("\tMade by 'https://github.com/Sironi-00'");
                 break;
             }
             _ => println!("Invalid Input"),
